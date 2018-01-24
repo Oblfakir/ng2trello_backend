@@ -7,43 +7,43 @@ using ng2trello_backend.Services.Interfaces;
 
 namespace ng2trello_backend.Services.Implementations
 {
-  public class ColumnService: IColumnService
-  {
-    private readonly IColumnRepository _repository;
-
-    public ColumnService(IColumnRepository repository)
+    public class ColumnService : IColumnService
     {
-      _repository = repository;
-    }
+        private readonly IColumnRepository _repository;
 
-    public string GetAllColumns()
-    {
-      return _repository.GetAllColumns().Select(x => new SerColumn(x)).Serialize();
-    }
+        public ColumnService(IColumnRepository repository)
+        {
+            _repository = repository;
+        }
 
-    public string GetColumnsByBoardId(int id)
-    {
-      return _repository.GetColumnByBoardId(id).Select(x => new SerColumn(x)).Serialize();
-    }
+        public string GetAllColumns()
+        {
+            return _repository.GetAllColumns().Select(x => new SerColumn(x)).Serialize();
+        }
 
-    public string GetColumnById(int id)
-    {
-      return new SerColumn(_repository.GetColumnById(id)).Serialize();
-    }
+        public string GetColumnsByBoardId(int id)
+        {
+            return _repository.GetColumnByBoardId(id).Select(x => new SerColumn(x)).Serialize();
+        }
 
-    public int AddColumn(SerColumn content)
-    {
-      return _repository.AddColumn(new Column(content));
-    }
+        public string GetColumnById(int id)
+        {
+            return new SerColumn(_repository.GetColumnById(id)).Serialize();
+        }
 
-    public void DeleteColumn(int id)
-    {
-      _repository.DeleteColumn(id);
-    }
+        public int AddColumn(SerColumn content)
+        {
+            return _repository.AddColumn(new Column(content));
+        }
 
-    public void ChangeColumn(int id, SerColumn content)
-    {
-      _repository.ChangeColumn(id, new Column(content));
+        public void DeleteColumn(int id)
+        {
+            _repository.DeleteColumn(id);
+        }
+
+        public void ChangeColumn(int id, SerColumn content)
+        {
+            _repository.ChangeColumn(id, new Column(content));
+        }
     }
-  }
 }

@@ -39,21 +39,6 @@ namespace ng2trello_backend.Controllers
       {
         Status = false
       });
-//      var requestDict = value.ToObject<Dictionary<string, object>>();
-//      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, JObject>>();
-//      var todoobj = dict?["todo"].ToObject<Dictionary<string, string>>();
-//      if (todoobj != null)
-//      {
-//          var todo = new SerTodo
-//          {
-//            Id = 0,
-//            Status = bool.Parse(todoobj["Status"]),
-//            Text = todoobj["Text"]
-//          };
-//        _service.AddTodo(todolistid, todo);
-//        return JsonConvert.SerializeObject(new Status {status = "true"});
-//      }
-//      return JsonConvert.SerializeObject(new Status {status = "false"});
     }
 
     [HttpPut("{todolistid}/{id}")]
@@ -73,21 +58,6 @@ namespace ng2trello_backend.Controllers
       {
         Status = false
       });
-//      var requestDict = value.ToObject<Dictionary<string, object>>();
-//      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, JObject>>();
-//      var todoobj = dict?["todo"].ToObject<Dictionary<string, string>>();
-//      if (todoobj != null)
-//      {
-//        var todo = new SerTodo
-//        {
-//          Id = 0,
-//          Status = bool.Parse(todoobj["Status"]),
-//          Text = todoobj["Text"]
-//        };
-//        _service.ChangeTodo(todolistid, id, todo);
-//        return JsonConvert.SerializeObject(new Status {status = "true"});
-//      }
-//      return JsonConvert.SerializeObject(new Status {status = "false"});
     }
 
     [HttpDelete("{todolistid}/{id}")]

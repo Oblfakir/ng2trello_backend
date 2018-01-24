@@ -50,34 +50,6 @@ namespace ng2trello_backend.Controllers
       {
         Status = false
       });
-
-//      var requestDict = value.ToObject<Dictionary<string, object>>();
-//      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, JObject>>();
-//      var todoobj = dict?["todolist"].ToObject<Dictionary<string, JObject>>();
-//      if (todoobj != null)
-//      {
-//        var todos = todoobj["Todos"].ToObject<Dictionary<string, JObject>>();
-//        var todolistTodos = new List<SerTodo>();
-//        foreach (var todo1 in todos)
-//        {
-//          var newTodo = todo1.Value.ToObject<Dictionary<string, string>>();
-//          todolistTodos.Add(new SerTodo
-//          {
-//            Id = int.Parse(newTodo["Id"]),
-//            Text = newTodo["Text"],
-//            Status = bool.Parse(newTodo["Status"])
-//          });
-//        }
-//        var todo = new SerTodolist
-//        {
-//          Id = 0,
-//          Todos = todolistTodos,
-//          Title = todoobj["Title"].ToString()
-//        };
-//        _service.AddTodolist(todo);
-//        return JsonConvert.SerializeObject(new Status {status = "true"});
-//      }
-//      return JsonConvert.SerializeObject(new Status {status = "false"});
     }
 
     [HttpPut("{id}")]
@@ -97,33 +69,6 @@ namespace ng2trello_backend.Controllers
       {
         Status = false
       });
-//      var requestDict = value.ToObject<Dictionary<string, object>>();
-//      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, JObject>>();
-//      var todoobj = dict?["todolist"].ToObject<Dictionary<string, JObject>>();
-//      if (todoobj != null)
-//      {
-//        var todos = todoobj["Todos"].ToObject<Dictionary<string, JObject>>();
-//        var todolistTodos = new List<SerTodo>();
-//        foreach (var todo1 in todos)
-//        {
-//          var newTodo = todo1.Value.ToObject<Dictionary<string, string>>();
-//          todolistTodos.Add(new SerTodo
-//          {
-//            Id = int.Parse(newTodo["Id"]),
-//            Text = newTodo["Text"],
-//            Status = bool.Parse(newTodo["Status"])
-//          });
-//        }
-//        var todo = new SerTodolist
-//        {
-//          Id = 0,
-//          Todos = todolistTodos,
-//          Title = todoobj["Title"].ToString()
-//        };
-//        _service.ChangeTodolist(id, todo);
-//        return JsonConvert.SerializeObject(new Status {status = "true"});
-//      }
-//      return JsonConvert.SerializeObject(new Status {status = "false"});
     }
 
     [HttpDelete("{id}")]

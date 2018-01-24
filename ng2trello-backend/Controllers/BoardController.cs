@@ -9,75 +9,61 @@ using Newtonsoft.Json.Linq;
 
 namespace ng2trello_backend.Controllers
 {
-  [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
-  [Route("api/[controller]")]
-  public class BoardController : Controller
-  {
-    private readonly IBoardService _service;
-
-    public BoardController(IBoardService service)
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
+    [Route("api/[controller]")]
+    public class BoardController : Controller
     {
-      _service = service;
-    }
+        private readonly IBoardService _service;
 
-    [HttpGet]
-    public string Get()
-    {
-      return _service.GetAllBoards();
-    }
-
-    [HttpGet("{id}")]
-    public string Get(int id)
-    {
-      return _service.GetBoardById(id);
-    }
-
-    [HttpPost]
-    public string Post([FromBody] JObject value)
-    {
-      var requestDict = value.ToObject<Dictionary<string, object>>();
-      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, SerBoard>>();
-      if (dict != null)
-      {
-        return JsonConvert.SerializeObject(new StatusResponse
+        public BoardController(IBoardService service)
         {
-          Status = true,
-          NewItemId = _service.AddBoard(dict["board"])
-        });
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
+            _service = service;
+        }
 
-    [HttpPut("{id}")]
-    public string Put(int id, [FromBody] JObject value)
-    {
-      var requestDict = value.ToObject<Dictionary<string, object>>();
-      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, SerBoard>>();
-      if (dict != null)
-      {
-        _service.ChangeBoard(id, dict["board"]);
-        return JsonConvert.SerializeObject(new StatusResponse
+        [HttpGet]
+        public string Get()
         {
-          Status = true
-        });
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
+            return _service.GetAllBoards();
+        }
 
-    [HttpDelete("{id}")]
-    public string Delete(int id)
-    {
-      _service.DeleteBoard(id);
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return _service.GetBoardById(id);
+        }
+
+        [HttpPost]
+        public string Post([FromBody] JObject value)
+        {
+            var dict = value.ToObject<Dictionary<string, SerBoard>>();
+            if (dict != null)
+            {
+                return JsonConvert.SerializeObject(new StatusResponse
+                {
+                    Status = true,
+                    NewItemId = _service.AddBoard(dict["board"])
+                });
+            }
+            return StatusResponse.FalseResponse();
+        }
+
+        [HttpPut("{id}")]
+        public string Put(int id, [FromBody] JObject value)
+        {
+            var dict = value.ToObject<Dictionary<string, SerBoard>>();
+            if (dict != null)
+            {
+                _service.ChangeBoard(id, dict["board"]);
+                return StatusResponse.TrueResponse();
+            }
+            return StatusResponse.FalseResponse();
+        }
+
+        [HttpDelete("{id}")]
+        public string Delete(int id)
+        {
+            _service.DeleteBoard(id);
+            return StatusResponse.TrueResponse();
+        }
     }
-  }
 }

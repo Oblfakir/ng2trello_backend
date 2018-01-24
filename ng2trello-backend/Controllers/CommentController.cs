@@ -50,22 +50,6 @@ namespace ng2trello_backend.Controllers
       {
         Status = false
       });
-//      var requestDict = value.ToObject<Dictionary<string, object>>();
-//      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, JObject>>();
-//      var commentdict = dict?["comment"].ToObject<Dictionary<string, string>>();
-//      if (commentdict != null)
-//      {
-//        var comment = new SerComment
-//        {
-//          Id = int.Parse(commentdict["Id"]),
-//          UserId = int.Parse(commentdict["UserId"]),
-//          Text = commentdict["Text"],
-//          Data = commentdict["Data"]
-//        };
-//        _service.AddComment(comment);
-//        return JsonConvert.SerializeObject(new Status {status = "true"});
-//      }
-//      return JsonConvert.SerializeObject(new Status {status = "false"});
     }
 
     [HttpPut("{id}")]
@@ -85,22 +69,6 @@ namespace ng2trello_backend.Controllers
       {
         Status = false
       });
-//      var requestDict = value.ToObject<Dictionary<string, object>>();
-//      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, JObject>>();
-//      var commentdict = dict?["comment"].ToObject<Dictionary<string, string>>();
-//      if (commentdict != null)
-//      {
-//        var comment = new SerComment
-//        {
-//          Id = int.Parse(commentdict["Id"]),
-//          UserId = int.Parse(commentdict["UserId"]),
-//          Text = commentdict["Text"],
-//          Data = commentdict["Data"]
-//        };
-//        _service.ChangeComment(id, comment);
-//        return JsonConvert.SerializeObject(new Status {status = "true"});
-//      }
-//      return JsonConvert.SerializeObject(new Status {status = "false"});
     }
 
     [HttpDelete("{id}")]

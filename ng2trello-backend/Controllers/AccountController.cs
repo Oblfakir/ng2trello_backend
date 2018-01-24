@@ -1,60 +1,90 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using ng2trello_backend.Extensions;
 using ng2trello_backend.Models;
+using ng2trello_backend.Models.Response;
 using ng2trello_backend.Services.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace ng2trello_backend.Controllers
 {
-  [Route("api/[controller]")]
-  public class AccountController : Controller
-  {
-    private readonly IAccountService _service;
-
-    public AccountController(IAccountService service)
+    [Route("api/[controller]")]
+    public class AccountController : Controller
     {
-      _service = service;
-    }
+        private readonly IAccountService _service;
 
-    [HttpPost]
-    public string Post([FromBody] JObject value)
-    {
-      var userData = value.BodyToDictionary();
-      if (userData != null)
-      {
-        var action = userData["action"];
-        var username = userData["username"];
-        var password = userData["password"];
-        switch (action)
+        public AccountController(IAccountService service)
         {
-            case "register":
-              return JsonConvert.SerializeObject(new StatusResponse
-              {
-                Status = _service.Register(username, password)
-              });
-            case "login":
-              return JsonConvert.SerializeObject(new Token
-              {
-                token = _service.GetJwtToken(username, password)
-              });
+            _service = service;
         }
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
 
-    private class Token
-    {
-      public string token { get; set; }
+        [Route("data")]
+        [HttpPost]
+        public string ByJwt([FromBody] JObject value)
+        {
+            var userData = value.BodyToDictionary();
+            if (userData != null)
+            {
+                var handler = new JwtSecurityTokenHandler();
+
+                try
+                {
+                    handler.ValidateToken(userData["token"], AuthOptions.GetValidationParameters(), out var validToken);
+
+                    if (validToken is JwtSecurityToken validJwt)
+                    {
+                        var username = validJwt.Payload[ClaimsIdentity.DefaultNameClaimType];
+                        return _service.GetUserData(username.ToString());
+                    }
+                }
+                catch (Exception)
+                {
+                    return StatusResponse.FalseResponse();
+                }
+            }
+            return StatusResponse.FalseResponse();
+        }
+
+        [Route("login")]
+        [HttpPost]
+        public string Login([FromBody] JObject value)
+        {
+            var userData = value.BodyToDictionary();
+            if (userData != null)
+            {
+                var username = userData["username"];
+                var password = userData["password"];
+                return JsonConvert.SerializeObject(new Token
+                {
+                    token = _service.GetJwtToken(username, password)
+                });
+            }
+
+            return StatusResponse.FalseResponse();
+        }
+
+        [Route("register")]
+        [HttpPost]
+        public string Register([FromBody] JObject value)
+        {
+            var userData = value.BodyToDictionary();
+            if (userData != null)
+            {
+                var username = userData["username"];
+                var password = userData["password"];
+                if (_service.Register(username, password))
+                {
+                    return JsonConvert.SerializeObject(new Token
+                    {
+                        token = _service.GetJwtToken(username, password)
+                    });
+                }
+            }
+
+            return StatusResponse.FalseResponse();
+        }
     }
-  }
 }
