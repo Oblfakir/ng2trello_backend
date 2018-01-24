@@ -6,6 +6,7 @@ namespace ng2trello_backend.Models
     {
         public bool Status { get; set; }
         public int? NewItemId { get; set; }
+        public string Token { get; set; }
 
         public static string FalseResponse()
         {

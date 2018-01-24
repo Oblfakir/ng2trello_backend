@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ng2trello_backend.Extensions;
 using ng2trello_backend.Models;
-using ng2trello_backend.Models.Response;
 using ng2trello_backend.Services.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,6 +21,7 @@ namespace ng2trello_backend.Controllers
             _service = service;
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
         [Route("data")]
         [HttpPost]
         public string ByJwt([FromBody] JObject value)
@@ -57,9 +58,10 @@ namespace ng2trello_backend.Controllers
             {
                 var username = userData["username"];
                 var password = userData["password"];
-                return JsonConvert.SerializeObject(new Token
+                return JsonConvert.SerializeObject(new StatusResponse
                 {
-                    token = _service.GetJwtToken(username, password)
+                    Status = true,
+                    Token = _service.GetJwtToken(username, password)
                 });
             }
 
@@ -77,9 +79,10 @@ namespace ng2trello_backend.Controllers
                 var password = userData["password"];
                 if (_service.Register(username, password))
                 {
-                    return JsonConvert.SerializeObject(new Token
+                    return JsonConvert.SerializeObject(new StatusResponse
                     {
-                        token = _service.GetJwtToken(username, password)
+                        Status = true,
+                        Token = _service.GetJwtToken(username, password)
                     });
                 }
             }
