@@ -26,7 +26,7 @@ namespace ng2trello_backend.Controllers
         [HttpPost]
         public string ByJwt([FromBody] JObject value)
         {
-            var userData = value.BodyToDictionary();
+            var userData = value?.BodyToDictionary();
             if (userData != null)
             {
                 var handler = new JwtSecurityTokenHandler();

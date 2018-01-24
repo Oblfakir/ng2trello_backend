@@ -13,7 +13,7 @@ namespace ng2trello_backend.Extensions
 
         public static Dictionary<string, string> BodyToDictionary(this JObject value)
         {
-            return value.ToObject<Dictionary<string, string>>();
+            return value?.ToObject<Dictionary<string, string>>();
         }
 
         //public static Dictionary<string, string> BodyToDictionary(this JObject value)
