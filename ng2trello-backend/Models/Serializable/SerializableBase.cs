@@ -2,11 +2,11 @@
 
 namespace ng2trello_backend.Models.Serializable
 {
-  public abstract class SerializableBase
-  {
-    public string Serialize()
+    public abstract class SerializableBase
     {
-      return JsonConvert.SerializeObject(this);
+        public string Serialize()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
-  }
 }

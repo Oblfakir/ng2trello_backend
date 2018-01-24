@@ -9,76 +9,62 @@ using Newtonsoft.Json.Linq;
 
 namespace ng2trello_backend.Controllers
 {
-  [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
-  [Route("api/[controller]")]
-  public class CommentController : Controller
-  {
-    private readonly ICommentService _service;
-
-    public CommentController(ICommentService service)
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
+    [Route("api/[controller]")]
+    public class CommentController : Controller
     {
-      _service = service;
-    }
+        private readonly ICommentService _service;
 
-    [HttpGet]
-    public string Get()
-    {
-      return _service.GetAllComments();
-    }
-
-    [HttpGet("{id}")]
-    public string Get(int id)
-    {
-      return _service.GetCommentById(id);
-    }
-
-    [HttpPost]
-    public string Post([FromBody] JObject value)
-    {
-      var requestDict = value.ToObject<Dictionary<string, object>>();
-      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, SerComment>>();
-      if (dict != null)
-      {
-        var newItemId = _service.AddComment(dict["comment"]);
-        return JsonConvert.SerializeObject(new StatusResponse
+        public CommentController(ICommentService service)
         {
-          Status = true,
-          NewItemId = newItemId
-        });
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
+            _service = service;
+        }
 
-    [HttpPut("{id}")]
-    public string Put(int id, [FromBody] JObject value)
-    {
-      var requestDict = value.ToObject<Dictionary<string, object>>();
-      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, SerComment>>();
-      if (dict != null)
-      {
-        _service.ChangeComment(id, dict["comment"]);
-        return JsonConvert.SerializeObject(new StatusResponse
+        [HttpGet]
+        public string Get()
         {
-          Status = true
-        });
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
+            return _service.GetAllComments();
+        }
 
-    [HttpDelete("{id}")]
-    public string Delete(int id)
-    {
-      _service.DeleteComment(id);
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = true
-      });
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return _service.GetCommentById(id);
+        }
+
+        [HttpPost]
+        public string Post([FromBody] JObject value)
+        {
+            var dict = value.ToObject<Dictionary<string, SerComment>>();
+            if (dict != null)
+            {
+                var newItemId = _service.AddComment(dict["comment"]);
+                return JsonConvert.SerializeObject(new StatusResponse
+                {
+                    Status = true,
+                    NewItemId = newItemId
+                });
+            }
+            return StatusResponse.FalseResponse();
+        }
+
+        [HttpPut("{id}")]
+        public string Put(int id, [FromBody] JObject value)
+        {
+            var dict = value.ToObject<Dictionary<string, SerComment>>();
+            if (dict != null)
+            {
+                _service.ChangeComment(id, dict["comment"]);
+                return StatusResponse.TrueResponse();
+            }
+            return StatusResponse.FalseResponse();
+        }
+
+        [HttpDelete("{id}")]
+        public string Delete(int id)
+        {
+            _service.DeleteComment(id);
+            return StatusResponse.FalseResponse();
+        }
     }
-  }
 }

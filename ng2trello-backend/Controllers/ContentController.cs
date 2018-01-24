@@ -9,75 +9,61 @@ using Newtonsoft.Json.Linq;
 
 namespace ng2trello_backend.Controllers
 {
-  [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
-  [Route("api/[controller]")]
-  public class ContentController : Controller
-  {
-    private readonly IContentService _service;
-
-    public ContentController(IContentService service)
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
+    [Route("api/[controller]")]
+    public class ContentController : Controller
     {
-      _service = service;
-    }
+        private readonly IContentService _service;
 
-    [HttpGet]
-    public string Get()
-    {
-      return _service.GetAllContent();
-    }
-
-    [HttpGet("{id}")]
-    public string Get(int id)
-    {
-      return _service.GetContentByCardId(id);
-    }
-
-    [HttpPost]
-    public string Post([FromBody] JObject value)
-    {
-      var requestDict = value.ToObject<Dictionary<string, object>>();
-      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, SerContent>>();
-      if (dict != null)
-      {
-        return JsonConvert.SerializeObject(new StatusResponse
+        public ContentController(IContentService service)
         {
-          Status = true,
-          NewItemId = _service.AddContent(dict["content"])
-        });
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
+            _service = service;
+        }
 
-    [HttpPut("{id}")]
-    public string Post(int id, [FromBody] JObject value)
-    {
-      var requestDict = value.ToObject<Dictionary<string, object>>();
-      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, SerContent>>();
-      if (dict != null)
-      {
-        _service.ChangeContent(id, dict["content"]);
-        return JsonConvert.SerializeObject(new StatusResponse
+        [HttpGet]
+        public string Get()
         {
-          Status = true
-        });
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
+            return _service.GetAllContent();
+        }
 
-    [HttpDelete("{id}")]
-    public string Delete(int id)
-    {
-      _service.DeleteContent(id);
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = true
-      });
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return _service.GetContentByCardId(id);
+        }
+
+        [HttpPost]
+        public string Post([FromBody] JObject value)
+        {
+            var dict = value.ToObject<Dictionary<string, SerContent>>();
+            if (dict != null)
+            {
+                return JsonConvert.SerializeObject(new StatusResponse
+                {
+                    Status = true,
+                    NewItemId = _service.AddContent(dict["content"])
+                });
+            }
+            return StatusResponse.FalseResponse();
+        }
+
+        [HttpPut("{id}")]
+        public string Post(int id, [FromBody] JObject value)
+        {
+            var dict = value.ToObject<Dictionary<string, SerContent>>();
+            if (dict != null)
+            {
+                _service.ChangeContent(id, dict["content"]);
+                return StatusResponse.TrueResponse();
+            }
+            return StatusResponse.FalseResponse();
+        }
+
+        [HttpDelete("{id}")]
+        public string Delete(int id)
+        {
+            _service.DeleteContent(id);
+            return StatusResponse.TrueResponse();
+        }
     }
-  }
 }

@@ -12,62 +12,48 @@ using Newtonsoft.Json.Linq;
 
 namespace ng2trello_backend.Controllers
 {
-  [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
-  [Route("api/[controller]")]
-  public class TodoController : Controller
-  {
-    private readonly ITodoService _service;
-    public TodoController(ITodolistRepository repository)
+    [Authorize(AuthenticationSchemes = "Bearer", Policy = "registered")]
+    [Route("api/[controller]")]
+    public class TodoController : Controller
     {
-      _service = new TodoService(repository);
-    }
-
-    [HttpPost("{todolistid}")]
-    public string Post(int todolistid, [FromBody] JObject value)
-    {
-      var requestDict = value.ToObject<Dictionary<string, object>>();
-      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, SerTodo>>();
-      if (dict != null)
-      {
-        return JsonConvert.SerializeObject(new StatusResponse
+        private readonly ITodoService _service;
+        public TodoController(ITodolistRepository repository)
         {
-          Status = true,
-          NewItemId = _service.AddTodo(todolistid, dict["todo"])
-        });
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
+            _service = new TodoService(repository);
+        }
 
-    [HttpPut("{todolistid}/{id}")]
-    public string Put(int todolistid, int id, [FromBody] JObject value)
-    {
-      var requestDict = value.ToObject<Dictionary<string, object>>();
-      var dict = (requestDict?["body"] as JObject)?.ToObject<Dictionary<string, SerTodo>>();
-      if (dict != null)
-      {
-        _service.ChangeTodo(todolistid, id, dict["todo"]);
-        return JsonConvert.SerializeObject(new StatusResponse
+        [HttpPost("{todolistid}")]
+        public string Post(int todolistid, [FromBody] JObject value)
         {
-          Status = true
-        });
-      }
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = false
-      });
-    }
+            var dict = value.ToObject<Dictionary<string, SerTodo>>();
+            if (dict != null)
+            {
+                return JsonConvert.SerializeObject(new StatusResponse
+                {
+                    Status = true,
+                    NewItemId = _service.AddTodo(todolistid, dict["todo"])
+                });
+            }
+            return StatusResponse.FalseResponse();
+        }
 
-    [HttpDelete("{todolistid}/{id}")]
-    public string Delete(int todolistid, int id)
-    {
-      _service.DeleteTodo(todolistid, id);
-      return JsonConvert.SerializeObject(new StatusResponse
-      {
-        Status = true
-      });
+        [HttpPut("{todolistid}/{id}")]
+        public string Put(int todolistid, int id, [FromBody] JObject value)
+        {
+            var dict = value.ToObject<Dictionary<string, SerTodo>>();
+            if (dict != null)
+            {
+                _service.ChangeTodo(todolistid, id, dict["todo"]);
+                return StatusResponse.TrueResponse();
+            }
+            return StatusResponse.FalseResponse();
+        }
+
+        [HttpDelete("{todolistid}/{id}")]
+        public string Delete(int todolistid, int id)
+        {
+            _service.DeleteTodo(todolistid, id);
+            return StatusResponse.TrueResponse();
+        }
     }
-  }
 }

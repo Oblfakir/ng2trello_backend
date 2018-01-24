@@ -6,38 +6,38 @@ using ng2trello_backend.Services.Interfaces;
 
 namespace ng2trello_backend.Services.Implementations
 {
-  public class BoardService: IBoardService
-  {
-    private readonly IBoardRepository _repository;
-
-    public BoardService(IBoardRepository repository)
+    public class BoardService : IBoardService
     {
-      _repository = repository;
-    }
+        private readonly IBoardRepository _repository;
 
-    public string GetBoardById(int id)
-    {
-      return new SerBoard(_repository.GetBoardById(id)).Serialize();
-    }
+        public BoardService(IBoardRepository repository)
+        {
+            _repository = repository;
+        }
 
-    public string GetAllBoards()
-    {
-      return _repository.GetAllBoards().Serialize();
-    }
+        public string GetBoardById(int id)
+        {
+            return new SerBoard(_repository.GetBoardById(id)).Serialize();
+        }
 
-    public int AddBoard(SerBoard board)
-    {
-      return _repository.AddBoard(new Board(board));
-    }
+        public string GetAllBoards()
+        {
+            return _repository.GetAllBoards().Serialize();
+        }
 
-    public void DeleteBoard(int id)
-    {
-      _repository.DeleteBoard(id);
-    }
+        public int AddBoard(SerBoard board)
+        {
+            return _repository.AddBoard(new Board(board));
+        }
 
-    public void ChangeBoard(int id, SerBoard board)
-    {
-      _repository.ChangeBoard(id, new Board(board));
+        public void DeleteBoard(int id)
+        {
+            _repository.DeleteBoard(id);
+        }
+
+        public void ChangeBoard(int id, SerBoard board)
+        {
+            _repository.ChangeBoard(id, new Board(board));
+        }
     }
-  }
 }
