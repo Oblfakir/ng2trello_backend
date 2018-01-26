@@ -6,6 +6,7 @@ namespace ng2trello_backend.Services.Interfaces
     {
         string GetAllCards();
         string GetCardsByBoardId(int id);
+        string GetCardsByColumnId(int id);
         string GetCardById(int id);
         int AddCard(SerCard card);
         void ChangeCard(int id, SerCard card);

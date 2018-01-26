@@ -14,9 +14,12 @@ namespace ng2trello_backend.Controllers
     public class ColumnController : Controller
     {
         private readonly IColumnService _service;
-        public ColumnController(IColumnService service)
+        private readonly ICardService _cardService;
+        
+        public ColumnController(IColumnService service, ICardService cardService)
         {
             _service = service;
+            _cardService = cardService;
         }
 
         [HttpGet]
@@ -30,11 +33,11 @@ namespace ng2trello_backend.Controllers
         {
             return _service.GetColumnById(id);
         }
-
-        [HttpPost("{boardid}")]
-        public string Post(int boardid)
+        
+        [HttpGet("{id}/cards")]
+        public string GetCards(int id)
         {
-            return _service.GetColumnsByBoardId(boardid);
+            return _cardService.GetCardsByColumnId(id);
         }
 
         [HttpPost]

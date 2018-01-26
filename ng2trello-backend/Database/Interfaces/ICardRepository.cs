@@ -7,6 +7,7 @@ namespace ng2trello_backend.Database.Interfaces
     {
         List<Card> GetAllCards();
         List<Card> GetCardsByBoardId(int id);
+        List<Card> GetCardsByColumnId(int id);
         Card GetCardById(int id);
         int AddCard(Card card);
         void ChangeCard(int id, Card card);

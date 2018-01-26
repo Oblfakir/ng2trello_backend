@@ -16,9 +16,14 @@ namespace ng2trello_backend.Controllers
     public class CardController : Controller
     {
         private readonly ICardService _service;
-        public CardController(ICardRepository repository)
+        private readonly ICardActionService _cardActionService;
+        private readonly ICommentService _commentService;
+        
+        public CardController(ICardService service, ICardActionService cardActionService, ICommentService commentService)
         {
-            _service = new CardService(repository);
+            _service = service;
+            _cardActionService = cardActionService;
+            _commentService = commentService;
         }
 
         [HttpGet]
@@ -32,11 +37,17 @@ namespace ng2trello_backend.Controllers
         {
             return _service.GetCardById(id);
         }
-
-        [HttpPost("{boardid}")]
-        public string Post(int boardid)
+        
+        [HttpGet("{id}/cardactions")]
+        public string GetActions(int id)
         {
-            return _service.GetCardsByBoardId(boardid);
+            return _cardActionService.GetCardActionsByCardId(id);
+        }
+        
+        [HttpGet("{id}/comments")]
+        public string GetComments(int id)
+        {
+            return _commentService.GetAllCommentsByCardId(id);
         }
 
         [HttpPost]

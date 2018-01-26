@@ -10,6 +10,7 @@ namespace ng2trello_backend.Database.Repositories
     public class CardRepository : ICardRepository
     {
         private readonly CardContext _db;
+        private ICardRepository _cardRepositoryImplementation;
 
         public CardRepository(CardContext context)
         {
@@ -24,6 +25,11 @@ namespace ng2trello_backend.Database.Repositories
         public List<Card> GetCardsByBoardId(int id)
         {
             return _db.Cards.Where(card => card.BoardId == id).ToList();
+        }
+
+        public List<Card> GetCardsByColumnId(int id)
+        {
+            return _db.Cards.Where(card => card.ColumnId == id).ToList();
         }
 
         public Card GetCardById(int id)

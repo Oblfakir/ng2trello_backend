@@ -26,6 +26,11 @@ namespace ng2trello_backend.Database.Repositories
             return _db.Comments.ToList();
         }
 
+        public List<Comment> GetAllCommentsByCardId(int id)
+        {
+            return _db.Comments.Where(x => x.CardId == id).ToList();
+        }
+
         public int AddComment(Comment comment)
         {
             if (comment == null) throw new Exception("AddComment method error: comment is null");

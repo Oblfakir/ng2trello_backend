@@ -27,6 +27,11 @@ namespace ng2trello_backend.Services.Implementations
             return _repository.GetCardsByBoardId(id).Serialize();
         }
 
+        public string GetCardsByColumnId(int id)
+        {
+            return _repository.GetCardsByColumnId(id).Serialize();
+        }
+
         public string GetCardById(int id)
         {
             return new SerCard(_repository.GetCardById(id)).Serialize();

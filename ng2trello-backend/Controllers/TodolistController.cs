@@ -16,9 +16,9 @@ namespace ng2trello_backend.Controllers
     public class TodolistController : Controller
     {
         private readonly ITodolistService _service;
-        public TodolistController(ITodolistRepository repository)
+        public TodolistController(ITodolistService service)
         {
-            _service = new TodolistService(repository);
+            _service = service;
         }
 
         [HttpGet]

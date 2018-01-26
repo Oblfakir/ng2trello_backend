@@ -26,6 +26,11 @@ namespace ng2trello_backend.Services.Implementations
             return _repository.GetAllComments().Serialize();
         }
 
+        public string GetAllCommentsByCardId(int id)
+        {
+            return _repository.GetAllCommentsByCardId(id).Serialize();
+        }
+
         public int AddComment(SerComment comment)
         {
             return _repository.AddComment(new Comment(comment));

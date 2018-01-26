@@ -32,12 +32,6 @@ namespace ng2trello_backend.Controllers
             return _service.GetCardActionById(id);
         }
 
-        [HttpPost("{cardid}")]
-        public string Post(int cardid)
-        {
-            return _service.GetCardActionsByCardId(cardid);
-        }
-
         [HttpPost]
         public string Post([FromBody] JObject value)
         {

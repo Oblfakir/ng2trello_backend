@@ -34,6 +34,12 @@ PUT /api/board/id - Request: {"board": json board}, Response: {"status": status}
 ```
 DELETE /api/board/id - Response: {"status": status}
 ```
+```
+GET /api/board/id/cards - All cards by board id info
+```
+```
+GET /api/board/id/columns - All columns by board id info
+```
 
 ### Card
 Needs authentication header
@@ -45,9 +51,6 @@ GET /api/card - All cards info
 GET /api/card/id - Card by id info
 ```
 ```
-POST /api/card/boardid - All cards by board id info
-```
-```
 POST /api/card - Request: {"card": json card}, Response: {"status": status, "newItemId": new item id}
 ```
 ```
@@ -55,6 +58,12 @@ PUT /api/card/id - Request: {"card": json card}, Response: {"status": status}
 ```
 ```
 DELETE /api/card/id - Response: {"status": status}
+```
+```
+GET /api/card/id/cardactions - All cardactions by card id info
+```
+```
+GET /api/card/id/comments - All comments by card id info
 ```
 
 ### Column
@@ -65,9 +74,6 @@ GET /api/column - All columns info
 ```
 ```
 GET /api/column/id - Column by id info
-```
-```
-POST /api/column/boardid - All columns by board id info
 ```
 ```
 POST /api/column - Request: {"column": json column}, Response: {"status": status, "newItemId": new item id}
@@ -103,9 +109,6 @@ GET /api/cardaction - All cardactions info
 ```
 ```
 GET /api/cardaction/id - cardaction by id info
-```
-```
-POST /api/cardaction/cardid - All cardactions by card id info
 ```
 ```
 POST /api/cardaction - Request: {"cardaction": json cardaction}, Response: {"status": status, "newItemId": new item id}
