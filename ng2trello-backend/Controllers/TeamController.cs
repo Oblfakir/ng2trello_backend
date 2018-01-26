@@ -24,6 +24,12 @@ namespace ng2trello_backend.Controllers
         {
             return _service.GetTeamById(id);
         }
+        
+        [HttpGet]
+        public string Get()
+        {
+            return _service.GetAllTeams();
+        }
 
         [HttpPost]
         public string Post([FromBody] JObject value)
