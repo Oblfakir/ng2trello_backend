@@ -84,7 +84,9 @@ PUT /api/column/id - Request: {"column": json column}, Response: {"status": stat
 ```
 DELETE /api/column/id - Response: {"status": status}
 ```
-
+```
+GET /api/column/id/cards - All cards by column id info
+```
 ### Team
 Needs authentication header
 
