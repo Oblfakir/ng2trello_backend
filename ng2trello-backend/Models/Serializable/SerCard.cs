@@ -18,7 +18,7 @@ namespace ng2trello_backend.Models.Serializable
             CreationTimestamp = card.CreationTimestamp;
             ExpirationTimestamp = card.ExpirationTimestamp;
             ColumnId = card.ColumnId;
-            ActionIds = card.ActionIds.Split('#').Select(int.Parse).ToList();
+            ActionIds = string.IsNullOrEmpty(card.ActionIds) ? new List<int>() :card.ActionIds.Split('#').Select(int.Parse).ToList();
             Labels = string.IsNullOrEmpty(card.Labels) ? new List<string>() : card.Labels.Split('#').ToList();
             TodolistId = card.TodolistId;
             CommentIds = string.IsNullOrEmpty(card.CommentIds) ? new List<int>() : card.CommentIds.Split('#').Select(int.Parse).ToList();

@@ -14,9 +14,15 @@ namespace ng2trello_backend.Models.Serializable
         {
             Id = board.Id;
             Title = board.Title;
-            ColumnIds = board.ColumnIds.Split('#').Select(int.Parse).ToList();
-            CardIds = board.CardIds.Split('#').Select(int.Parse).ToList();
-            ParticipantIds = board.ParticipantIds.Split('#').Select(int.Parse).ToList();
+            ColumnIds = string.IsNullOrEmpty(board.ColumnIds) 
+                ? new List<int>()
+                : board.ColumnIds.Split('#').Select(int.Parse).ToList();
+            CardIds = string.IsNullOrEmpty(board.ColumnIds) 
+                ? new List<int>()
+                : board.ColumnIds.Split('#').Select(int.Parse).ToList();
+            ParticipantIds = string.IsNullOrEmpty(board.ColumnIds) 
+                ? new List<int>()
+                : board.ColumnIds.Split('#').Select(int.Parse).ToList();
             Status = board.Status;
             Sorting = board.Sorting;
         }

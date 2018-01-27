@@ -10,10 +10,12 @@ namespace ng2trello_backend.Database.Repositories
     public class ColumnRepository : IColumnRepository
     {
         private readonly ColumnContext _db;
+        private readonly BoardContext _dbBoards;
 
-        public ColumnRepository(ColumnContext db)
+        public ColumnRepository(ColumnContext db, BoardContext boardContext)
         {
             _db = db;
+            _dbBoards = boardContext;
         }
 
         public List<Column> GetAllColumns()
@@ -31,13 +33,18 @@ namespace ng2trello_backend.Database.Repositories
             return _db.Columns.Find(id);
         }
 
-        public int AddColumn(Column content)
+        public int AddColumn(Column column)
         {
-            if (content == null) throw new Exception("AddColumn method error: column is null");
-            content.Id = GetNextId();
-            _db.Columns.Add(content);
+            if (column == null) throw new Exception("AddColumn method error: column is null");
+            var board = _dbBoards.Boards.Find(column.BoardId);
+            if ( board == null) throw new Exception("AddColumn method error: board is null");
+            column.Id = GetNextId();
+            board.AddColumnId(column.Id);
+            _db.Columns.Add(column);
             _db.SaveChanges();
-            return content.Id;
+            _dbBoards.Update(board);
+            _dbBoards.SaveChanges();
+            return column.Id;
         }
 
         public void DeleteColumn(int id)

@@ -1,4 +1,5 @@
-﻿using ng2trello_backend.Database.Interfaces;
+﻿using System;
+using ng2trello_backend.Database.Interfaces;
 using ng2trello_backend.Extensions;
 using ng2trello_backend.Models;
 using ng2trello_backend.Models.Serializable;
@@ -17,7 +18,16 @@ namespace ng2trello_backend.Services.Implementations
 
         public string GetBoardById(int id)
         {
-            return new SerBoard(_repository.GetBoardById(id)).Serialize();
+            Board board = null;
+            try
+            {
+                board = _repository.GetBoardById(id);
+            }
+            catch
+            {
+                
+            }
+            return new SerBoard(board).Serialize();
         }
 
         public string GetAllBoards()
