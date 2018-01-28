@@ -10,9 +10,11 @@ namespace ng2trello_backend.Database.Repositories
     public class CardActionRepository : ICardActionRepository
     {
         private readonly CardActionContext _db;
+        private readonly CardContext _dbCards;
 
-        public CardActionRepository(CardActionContext db)
+        public CardActionRepository(CardActionContext db, CardContext cc)
         {
+            _dbCards = cc;
             _db = db;
         }
 
@@ -34,8 +36,12 @@ namespace ng2trello_backend.Database.Repositories
         public int AddCardAction(CardAction cardAction)
         {
             if (cardAction == null) throw new Exception("AddCardAction method error: cardAction is null");
+            var card = _dbCards.Cards.Find(cardAction.CardId);
             cardAction.Id = GetNextId();
+            card.AddActionId(cardAction.Id);
             _db.CardActions.Add(cardAction);
+            _dbCards.Cards.Update(card);
+            _dbCards.SaveChanges();
             _db.SaveChanges();
             return cardAction.Id;
         }

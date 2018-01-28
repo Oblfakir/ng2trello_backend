@@ -15,7 +15,7 @@ namespace ng2trello_backend.Models
       UserId = comment.UserId;
       Text = comment.Text;
       Data = comment.Data;
-      CardId = comment.Id;
+      CardId = comment.CardId;
     }
 
     public int Id { get; set; }

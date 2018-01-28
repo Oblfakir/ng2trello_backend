@@ -10,10 +10,12 @@ namespace ng2trello_backend.Database.Repositories
     public class CommentRepository : ICommentRepository
     {
         private readonly CommentContext _db;
+        private readonly CardContext _dbCards;
 
-        public CommentRepository(CommentContext db)
+        public CommentRepository(CommentContext db, CardContext cc)
         {
             _db = db;
+            _dbCards = cc;
         }
 
         public Comment GetCommentById(int id)
@@ -36,6 +38,13 @@ namespace ng2trello_backend.Database.Repositories
             if (comment == null) throw new Exception("AddComment method error: comment is null");
             comment.Id = GetNextId();
             _db.Comments.Add(comment);
+            if (comment.CardId != null)
+            {
+                var card = _dbCards.Cards.Find(comment.CardId);
+                card.AddCommentId(comment.Id);
+                _dbCards.Update(card);
+                _dbCards.SaveChanges();
+            }
             _db.SaveChanges();
             return comment.Id;
         }

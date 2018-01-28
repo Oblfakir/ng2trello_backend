@@ -13,8 +13,10 @@
             UserId = comment.UserId;
             Text = comment.Text;
             Data = comment.Data;
+            CardId = comment.Id;
         }
 
+        public int? CardId { get; set; }
         public int Id { get; set; }
         public int UserId { get; set; }
         public string Text { get; set; }
