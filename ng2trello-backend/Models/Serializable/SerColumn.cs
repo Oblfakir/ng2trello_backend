@@ -13,7 +13,7 @@ namespace ng2trello_backend.Models.Serializable
         {
             Id = column.Id;
             BoardId = column.BoardId;
-            CardIds = column.CardIds.Split('#').Select(int.Parse).ToList();
+            CardIds = string.IsNullOrEmpty(column.CardIds) ? new List<int>():column.CardIds.Split('#').Select(int.Parse).ToList();
             Title = column.Title;
         }
 

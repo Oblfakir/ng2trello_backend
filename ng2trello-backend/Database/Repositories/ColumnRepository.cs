@@ -51,7 +51,12 @@ namespace ng2trello_backend.Database.Repositories
         {
             var column = _db.Columns.Find(id);
             if (column == null) throw new Exception($"DeleteColumn method error: column with id {id} was not found");
+            var board = _dbBoards.Boards.Find(column.BoardId);
+            if ( board == null) throw new Exception("DeleteColumn method error: board is null");
+            board.DeleteColumnId(column.Id);
             _db.Columns.Remove(column);
+            _dbBoards.Update(board);
+            _dbBoards.SaveChanges();
             _db.SaveChanges();
         }
 

@@ -10,7 +10,6 @@ namespace ng2trello_backend.Database.Repositories
     public class CardRepository : ICardRepository
     {
         private readonly CardContext _db;
-        private ICardRepository _cardRepositoryImplementation;
 
         public CardRepository(CardContext context)
         {

@@ -13,6 +13,7 @@ namespace ng2trello_backend.Models
 
     public Card(SerCard card)
     {
+      Title = card.Title;
       Id = card.Id;
       ParticipantIds = string.Join('#', card.ParticipantIds);
       BoardId = card.BoardId;
@@ -25,6 +26,7 @@ namespace ng2trello_backend.Models
       CommentIds = string.Join('#', card.CommentIds);
     }
 
+    public string Title { get; set; }
     public int Id { get; set; }
     public string ParticipantIds { get; set; }
     public int BoardId { get; set; }

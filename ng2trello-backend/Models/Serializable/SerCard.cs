@@ -12,6 +12,7 @@ namespace ng2trello_backend.Models.Serializable
 
         public SerCard(Card card)
         {
+            Title = card.Title;
             Id = card.Id;
             ParticipantIds = card.GetParticipantIds();
             BoardId = card.BoardId;
@@ -24,6 +25,7 @@ namespace ng2trello_backend.Models.Serializable
             CommentIds = string.IsNullOrEmpty(card.CommentIds) ? new List<int>() : card.CommentIds.Split('#').Select(int.Parse).ToList();
         }
 
+        public string Title { get; set; }
         public int Id { get; set; }
         public List<int> ParticipantIds { get; set; }
         public int BoardId { get; set; }

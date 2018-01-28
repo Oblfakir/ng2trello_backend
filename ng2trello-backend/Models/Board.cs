@@ -49,5 +49,13 @@ namespace ng2trello_backend.Models
       }
     }
 
+    public void DeleteColumnId(int id)
+    {
+      var columnIds = GetColumnIds();
+      if (columnIds.Contains(id))
+      {
+        ColumnIds = string.Join('#', columnIds.Where(x => x != id));
+      }
+    }
   }
 }
