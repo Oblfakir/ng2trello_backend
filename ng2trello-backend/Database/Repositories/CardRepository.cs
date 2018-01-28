@@ -10,10 +10,14 @@ namespace ng2trello_backend.Database.Repositories
     public class CardRepository : ICardRepository
     {
         private readonly CardContext _db;
+        private readonly BoardContext _dbBoard;
+        private readonly ColumnContext _dbColumn;
 
-        public CardRepository(CardContext context)
+        public CardRepository(CardContext context, BoardContext bc, ColumnContext cc)
         {
             _db = context;
+            _dbBoard = bc;
+            _dbColumn = cc;
         }
 
         public List<Card> GetAllCards()
@@ -41,9 +45,28 @@ namespace ng2trello_backend.Database.Repositories
         public int AddCard(Card card)
         {
             if (card == null) throw new Exception("AddCard method error: Card is null");
+            var board = _dbBoard.Boards.Find(card.BoardId);
+            var column = _dbColumn.Columns.Find(card.ColumnId);
+            
             card.Id = GetNextCardId();
+            board.AddCardId(card.Id);
+            column.AddCardId(card.Id);
+
+            _dbBoard.Boards.Update(board);
+            _dbColumn.Columns.Update(column);
             _db.Cards.Add(card);
-            _db.SaveChanges();
+            
+            try
+            {
+                _dbBoard.SaveChanges();
+                _dbColumn.SaveChanges();
+                _db.SaveChanges();
+            }
+            catch
+            {
+                
+            }
+            
             return card.Id;
         }
 
@@ -61,7 +84,17 @@ namespace ng2trello_backend.Database.Repositories
         {
             var card = _db.Cards.Find(id);
             if (card == null) throw new Exception($"DeleteCard method error: No card with id {id}");
+            var board = _dbBoard.Boards.Find(card.BoardId);
+            var column = _dbColumn.Columns.Find(card.ColumnId);
+            
+            board.DeleteCardId(card.Id);
+            column.DeleteCardId(card.Id);
+
+            _dbBoard.Boards.Update(board);
+            _dbColumn.Columns.Update(column);
             _db.Cards.Remove(card);
+            _dbBoard.SaveChanges();
+            _dbColumn.SaveChanges();
             _db.SaveChanges();
         }
 

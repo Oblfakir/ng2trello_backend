@@ -36,6 +36,13 @@ namespace ng2trello_backend.Models
         ? new List<int>()
         : ColumnIds.Split('#').Select(int.Parse).ToList();
     }
+    
+    public List<int> GetCardIds()
+    {
+      return string.IsNullOrEmpty(CardIds)
+        ? new List<int>()
+        : CardIds.Split('#').Select(int.Parse).ToList();
+    }
 
     public void AddColumnId(int id)
     {
@@ -55,6 +62,27 @@ namespace ng2trello_backend.Models
       if (columnIds.Contains(id))
       {
         ColumnIds = string.Join('#', columnIds.Where(x => x != id));
+      }
+    }
+    
+    public void AddCardId(int id)
+    {
+      if (GetCardIds().Count < 1)
+      {
+        CardIds = id.ToString();
+      }
+      else
+      {
+        CardIds = CardIds + '#' + id;
+      }
+    }
+
+    public void DeleteCardId(int id)
+    {
+      var cardIds = GetCardIds();
+      if (cardIds.Contains(id))
+      {
+        CardIds = string.Join('#', cardIds.Where(x => x != id));
       }
     }
   }
