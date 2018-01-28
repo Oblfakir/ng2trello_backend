@@ -36,14 +36,7 @@ namespace ng2trello_backend.Models
 
         public void AddTodoId(int id)
         {
-            if (GetTodoIds().Count < 1)
-            {
-                TodoIds = id.ToString();
-            }
-            else
-            {
-                TodoIds = TodoIds + '#' + id;
-            }
+            TodoIds = GetTodoIds().Count < 1 ? id.ToString() : TodoIds + '#' + id;
         }
 
         public void DeleteTodoId(int id)

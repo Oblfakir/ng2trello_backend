@@ -12,12 +12,14 @@ namespace ng2trello_backend.Database.Repositories
         private readonly CardContext _db;
         private readonly BoardContext _dbBoard;
         private readonly ColumnContext _dbColumn;
+        private readonly TodolistContext _dbTodo;
 
-        public CardRepository(CardContext context, BoardContext bc, ColumnContext cc)
+        public CardRepository(CardContext context, BoardContext bc, ColumnContext cc, TodolistContext tc)
         {
             _db = context;
             _dbBoard = bc;
             _dbColumn = cc;
+            _dbTodo = tc;
         }
 
         public List<Card> GetAllCards()
@@ -47,7 +49,14 @@ namespace ng2trello_backend.Database.Repositories
             if (card == null) throw new Exception("AddCard method error: Card is null");
             var board = _dbBoard.Boards.Find(card.BoardId);
             var column = _dbColumn.Columns.Find(card.ColumnId);
-            
+            var todolist = new Todolist
+            {
+                Title = "Todolist",
+                Id = GetNextTodolistId(),
+                TodoIds = ""
+            };
+
+            card.TodolistId = todolist.Id;
             card.Id = GetNextCardId();
             board.AddCardId(card.Id);
             column.AddCardId(card.Id);
@@ -55,17 +64,12 @@ namespace ng2trello_backend.Database.Repositories
             _dbBoard.Boards.Update(board);
             _dbColumn.Columns.Update(column);
             _db.Cards.Add(card);
-            
-            try
-            {
-                _dbBoard.SaveChanges();
-                _dbColumn.SaveChanges();
-                _db.SaveChanges();
-            }
-            catch
-            {
-                
-            }
+            _dbTodo.Todolists.Add(todolist);
+
+            _dbTodo.SaveChanges();
+            _dbBoard.SaveChanges();
+            _dbColumn.SaveChanges();
+            _db.SaveChanges();
             
             return card.Id;
         }
@@ -101,6 +105,12 @@ namespace ng2trello_backend.Database.Repositories
         private int GetNextCardId()
         {
             var ids = _db.Cards.ToList().Select(x => x.Id).ToList();
+            return ids.Any() ? ids.Max() + 1 : 1;
+        }
+        
+        private int GetNextTodolistId()
+        {
+            var ids = _dbTodo.Todolists.ToList().Select(x => x.Id).ToList();
             return ids.Any() ? ids.Max() + 1 : 1;
         }
     }

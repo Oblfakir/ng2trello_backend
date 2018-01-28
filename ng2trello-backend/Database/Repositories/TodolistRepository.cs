@@ -85,8 +85,9 @@ namespace ng2trello_backend.Database.Repositories
             if (todolist == null) throw new Exception($"ChangeTodo method error: No todolist with id {todolistid}");
             var changingTodo = _db.Todos.Find(id);
             if (changingTodo == null) throw new Exception($"ChangeTodo method error: No todo in todolist with id {id}");
-            todo.Id = id;
-            _db.Todos.Update(todo);
+            changingTodo.Status = todo.Status;
+            changingTodo.Text = todo.Text;
+            _db.Todos.Update(changingTodo);
             _db.SaveChanges();
         }
 
