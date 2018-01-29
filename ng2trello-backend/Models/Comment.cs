@@ -18,6 +18,14 @@ namespace ng2trello_backend.Models
       CardId = comment.CardId;
     }
 
+    public void CopyProps(Comment comment)
+    {
+      UserId = comment.UserId;
+      Text = comment.Text;
+      Data = comment.Data;
+      CardId = comment.CardId;
+    }
+
     public int Id { get; set; }
     public int UserId { get; set; }
     public int? CardId { get; set; }

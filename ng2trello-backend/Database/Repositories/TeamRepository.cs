@@ -29,7 +29,6 @@ namespace ng2trello_backend.Database.Repositories
         public int AddTeam(Team team)
         {
             if (team == null) throw new Exception("AddTeam method error: team is null");
-            team.Id = GetNextId();
             _db.Teams.Add(team);
             _db.SaveChanges();
             return team.Id;
@@ -48,14 +47,9 @@ namespace ng2trello_backend.Database.Repositories
             var team = _db.Teams.Find(id);
             if (newteam == null) throw new Exception("ChangeTeam method error: team is null");
             if (team == null) throw new Exception($"ChangeTeam method error: no team with id {id}");
-            newteam.Id = id;
-            _db.Teams.Update(newteam);
+            team.CopyProps(newteam);
+            _db.Teams.Update(team);
             _db.SaveChanges();
-        }
-
-        private int GetNextId()
-        {
-            return _db.Teams.Any() ? _db.Teams.Select(x => x.Id).Max() + 1 : 1;
         }
     }
 }

@@ -36,8 +36,8 @@ namespace ng2trello_backend.Database.Repositories
         public int AddComment(Comment comment)
         {
             if (comment == null) throw new Exception("AddComment method error: comment is null");
-            comment.Id = GetNextId();
             _db.Comments.Add(comment);
+            _db.SaveChanges();
             if (comment.CardId != null)
             {
                 var card = _dbCards.Cards.Find(comment.CardId);
@@ -45,7 +45,6 @@ namespace ng2trello_backend.Database.Repositories
                 _dbCards.Update(card);
                 _dbCards.SaveChanges();
             }
-            _db.SaveChanges();
             return comment.Id;
         }
 
@@ -62,14 +61,9 @@ namespace ng2trello_backend.Database.Repositories
             var comment = _db.Comments.Find(id);
             if (comment == null) throw new Exception($"ChangeComment method error: no comment with id {id} was found");
             if (newcomment == null) throw new Exception("ChangeComment method error: comment is null");
-            newcomment.Id = id;
-            _db.Comments.Update(newcomment);
+           comment.CopyProps(newcomment);
+            _db.Comments.Update(comment);
             _db.SaveChanges();
-        }
-
-        private int GetNextId()
-        {
-            return _db.Comments.Any() ? _db.Comments.Select(x => x.Id).Max() + 1 : 1;
         }
     }
 }

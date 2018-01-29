@@ -17,6 +17,13 @@ namespace ng2trello_backend.Models
             BoardIds = string.Join('#', team.BoardIds);
         }
 
+        public void CopyProps(Team team)
+        {
+            ParticipantIds = team.ParticipantIds;
+            Title = team.Title;
+            BoardIds = team.BoardIds;
+        }
+
         public int Id { get; set; }
         public string ParticipantIds { get; set; }
         public string Title { get; set; }

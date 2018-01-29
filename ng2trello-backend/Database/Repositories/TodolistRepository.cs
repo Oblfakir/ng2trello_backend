@@ -19,7 +19,6 @@ namespace ng2trello_backend.Database.Repositories
         public int AddTodolist(Todolist todolist)
         {
             if (todolist == null) throw new Exception("AddTodolist method error: Todolist is null");
-            todolist.Id = GetNextTodolistId();
             _db.Todolists.Add(todolist);
             _db.SaveChanges();
             return todolist.Id;
@@ -59,10 +58,9 @@ namespace ng2trello_backend.Database.Repositories
         {
             var todolist = _db.Todolists.Find(todolistid);
             if (todolist == null) throw new Exception($"AddTodo method error: No todolist with id {todolistid}");
-            todo.Id = GetNextTodoId();
-            todolist.AddTodoId(todo.Id);
             _db.Todos.Add(todo);
             _db.SaveChanges();
+            todolist.AddTodoId(todo.Id);
             ChangeTodolist(todolistid, todolist);
             return todo.Id;
         }
@@ -99,18 +97,6 @@ namespace ng2trello_backend.Database.Repositories
         public List<Todo> GetTodosByIdArray(List<int> ids)
         {
             return ids.Select(id => _db.Todos.Find(id)).Where(todo => todo != null).ToList();
-        }
-
-        private int GetNextTodolistId()
-        {
-            var ids = _db.Todolists.ToList().Select(x => x.Id).ToList();
-            return ids.Any() ? ids.Max() + 1 : 1;
-        }
-
-        private int GetNextTodoId()
-        {
-            var ids = _db.Todos.ToList().Select(x => x.Id).ToList();
-            return ids.Any() ? ids.Max() + 1 : 1;
         }
     }
 }

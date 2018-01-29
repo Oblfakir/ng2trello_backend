@@ -17,6 +17,13 @@ namespace ng2trello_backend.Models
       ImageUrl = content.ImageUrl;
     }
 
+    public void CopyProps(Content content)
+    {
+      CardId = content.CardId;
+      Text = content.Text;
+      ImageUrl = content.ImageUrl;
+    }
+
     public int Id { get; set; }
     public int CardId { get; set; }
     public string Text { get; set; }

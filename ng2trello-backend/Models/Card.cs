@@ -26,6 +26,20 @@ namespace ng2trello_backend.Models
       CommentIds = string.Join('#', card.CommentIds);
     }
 
+    public void CopyParams(Card card)
+    {
+      Title = card.Title;
+      ParticipantIds = card.ParticipantIds;
+      BoardId = card.BoardId;
+      CreationTimestamp = card.CreationTimestamp;
+      ExpirationTimestamp = card.ExpirationTimestamp;
+      ColumnId = card.ColumnId;
+      ActionIds = card.ActionIds;
+      Labels = card.Labels;
+      TodolistId = card.TodolistId;
+      CommentIds = card.CommentIds;
+    }
+
     public string Title { get; set; }
     public int Id { get; set; }
     public string ParticipantIds { get; set; }

@@ -28,7 +28,6 @@ namespace ng2trello_backend.Database.Repositories
         public int AddBoard(Board board)
         {
             if (board == null) throw new Exception("AddBoard method error: board is null");
-            board.Id = GetNextId();
             _db.Boards.Add(board);
             _db.SaveChanges();
             return board.Id;
@@ -46,14 +45,9 @@ namespace ng2trello_backend.Database.Repositories
         {
             var board = _db.Boards.Find(id);
             if (board == null) throw new Exception($"ChangeBoard method error: no board with id {id}");
-            newboard.Id = id;
+            board.CopyProps(newboard);
             _db.Boards.Update(newboard);
             _db.SaveChanges();
-        }
-
-        private int GetNextId()
-        {
-            return _db.Boards.Any() ? _db.Boards.Select(x => x.Id).Max() + 1 : 1;
         }
     }
 }

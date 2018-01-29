@@ -38,10 +38,9 @@ namespace ng2trello_backend.Database.Repositories
             if (column == null) throw new Exception("AddColumn method error: column is null");
             var board = _dbBoards.Boards.Find(column.BoardId);
             if ( board == null) throw new Exception("AddColumn method error: board is null");
-            column.Id = GetNextId();
-            board.AddColumnId(column.Id);
             _db.Columns.Add(column);
             _db.SaveChanges();
+            board.AddColumnId(column.Id);
             _dbBoards.Update(board);
             _dbBoards.SaveChanges();
             return column.Id;
@@ -67,11 +66,6 @@ namespace ng2trello_backend.Database.Repositories
             if (content == null) throw new Exception("ChangeColumn method error: column is null");
             _db.Columns.Update(content);
             _db.SaveChanges();
-        }
-
-        private int GetNextId()
-        {
-            return _db.Columns.Any() ? _db.Columns.Select(x => x.Id).Max() + 1 : 1;
         }
     }
 }

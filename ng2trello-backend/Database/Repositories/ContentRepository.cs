@@ -29,7 +29,6 @@ namespace ng2trello_backend.Database.Repositories
         public int AddContent(Content content)
         {
             if (content == null) throw new Exception("AddContent method error: content is null");
-            content.Id = GetNextId();
             _db.Contents.Add(content);
             _db.SaveChanges();
             return content.Id;
@@ -43,19 +42,14 @@ namespace ng2trello_backend.Database.Repositories
             _db.SaveChanges();
         }
 
-        public void ChangeContent(int id, Content content)
+        public void ChangeContent(int id, Content newcontent)
         {
-            var ccontent = _db.Contents.Find(id);
-            if (ccontent == null) throw new Exception($"ChangeContent method error: Content with id {id} was not found");
-            if (content == null) throw new Exception("ChangeContent method error: Content is null");
-            content.Id = id;
+            var content = _db.Contents.Find(id);
+            if (content == null) throw new Exception($"ChangeContent method error: Content with id {id} was not found");
+            if (newcontent == null) throw new Exception("ChangeContent method error: Content is null");
+            content.CopyProps(newcontent);
             _db.Contents.Update(content);
             _db.SaveChanges();
-        }
-
-        private int GetNextId()
-        {
-            return _db.Contents.Any() ? _db.Contents.Select(x => x.Id).Max() + 1 : 1;
         }
     }
 }

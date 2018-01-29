@@ -8,6 +8,13 @@ namespace ng2trello_backend.Models
     {
 
     }
+    
+    public void CopyProps(CardAction cardAction)
+    {
+      CardId = cardAction.CardId;
+      Text = cardAction.Text;
+      ParticipantId = cardAction.ParticipantId;
+    }
 
     public CardAction(SerCardAction cardAction)
     {

@@ -36,13 +36,13 @@ namespace ng2trello_backend.Database.Repositories
         public int AddCardAction(CardAction cardAction)
         {
             if (cardAction == null) throw new Exception("AddCardAction method error: cardAction is null");
-            var card = _dbCards.Cards.Find(cardAction.CardId);
-            cardAction.Id = GetNextId();
-            card.AddActionId(cardAction.Id);
             _db.CardActions.Add(cardAction);
+            _db.SaveChanges();
+            
+            var card = _dbCards.Cards.Find(cardAction.CardId);
+            card.AddActionId(cardAction.Id);
             _dbCards.Cards.Update(card);
             _dbCards.SaveChanges();
-            _db.SaveChanges();
             return cardAction.Id;
         }
 
@@ -59,14 +59,9 @@ namespace ng2trello_backend.Database.Repositories
             var cardAction = _db.CardActions.Find(id);
             if (cardAction == null) throw new Exception($"ChangeCardAction method error: cardAction with id {id} was not found");
             if (newCardAction == null) throw new Exception("ChangeCardAction method error: cardAction is null");
-            newCardAction.Id = id;
-            _db.CardActions.Add(newCardAction);
+            cardAction.CopyProps(newCardAction);
+            _db.CardActions.Update(cardAction);
             _db.SaveChanges();
-        }
-
-        private int GetNextId()
-        {
-            return _db.CardActions.Any() ? _db.CardActions.Select(x => x.Id).Max() + 1 : 1;
         }
     }
 }

@@ -21,7 +21,17 @@ namespace ng2trello_backend.Models
       Status = board.Status;
       Sorting = board.Sorting;
     }
-    
+
+    public void CopyProps(Board board)
+    {
+      Title = board.Title;
+      ColumnIds = board.ColumnIds;
+      CardIds = board.CardIds;
+      ParticipantIds = board.ParticipantIds;
+      Status = board.Status;
+      Sorting = board.Sorting;
+    }
+
     public int Id { get; set; }
     public string Title { get; set; }
     public string ColumnIds { get; set; }

@@ -39,7 +39,6 @@ namespace ng2trello_backend.Database.Repositories
 
             var user = new User
             {
-                Id = GetNextUserId(),
                 Username = login,
                 Password = passwordHash,
                 Salt = Convert.ToBase64String(salt),
@@ -69,11 +68,6 @@ namespace ng2trello_backend.Database.Repositories
               iterationCount: 10000,
               numBytesRequested: 256 / 8));
             return passwordHash == user.Password ? user : null;
-        }
-
-        private int GetNextUserId()
-        {
-            return _db.Users.Any() ? _db.Users.Select(x => x.Id).Max() + 1 : 1;
         }
 
         public ClaimsIdentity GetIdentity(string login, string password)
