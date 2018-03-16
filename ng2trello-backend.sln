@@ -1,9 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.0.0
-MinimumVisualStudioVersion = 10.0.0.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ng2trello_backend", "ng2trello-backend\ng2trello-backend.csproj", "{7950ADC3-4D4B-4197-9BB3-8BB4CBC742EB}"
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ng2trello-backend.Web", "ng2trello-backend.Web\ng2trello-backend.Web.csproj", "{429CBA54-9B1E-46F5-8517-7DD0C8E85806}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ng2trello_backend.DAL.Implementations", "ng2trello_backend.DAL.Implementations\ng2trello_backend.DAL.Implementations.csproj", "{59CC26FC-67FD-4038-A1FB-2F5760151ECF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ng2trello_backend.DAL.Interfaces", "ng2trello_backend.DAL.Interfaces\ng2trello_backend.DAL.Interfaces.csproj", "{777140C5-D424-4BEC-8719-06260CB3DC9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ng2trello_backend.Entities", "ng2trello_backend.Entities\ng2trello_backend.Entities.csproj", "{17481052-0515-4951-87DC-0AF7296A462C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ng2trello_backend.BLL.Interfaces", "ng2trello_backend.BLL.Interfaces\ng2trello_backend.BLL.Interfaces.csproj", "{FFC66B3B-6FC5-4D06-A12A-05ECF5EA65BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ng2trello_backend.BLL.Implementations", "ng2trello_backend.BLL.Implementations\ng2trello_backend.BLL.Implementations.csproj", "{79AC3CA7-D106-45DA-8C63-A91EA220ADEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +21,35 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7950ADC3-4D4B-4197-9BB3-8BB4CBC742EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7950ADC3-4D4B-4197-9BB3-8BB4CBC742EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7950ADC3-4D4B-4197-9BB3-8BB4CBC742EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7950ADC3-4D4B-4197-9BB3-8BB4CBC742EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{429CBA54-9B1E-46F5-8517-7DD0C8E85806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429CBA54-9B1E-46F5-8517-7DD0C8E85806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429CBA54-9B1E-46F5-8517-7DD0C8E85806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429CBA54-9B1E-46F5-8517-7DD0C8E85806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59CC26FC-67FD-4038-A1FB-2F5760151ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59CC26FC-67FD-4038-A1FB-2F5760151ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59CC26FC-67FD-4038-A1FB-2F5760151ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59CC26FC-67FD-4038-A1FB-2F5760151ECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{777140C5-D424-4BEC-8719-06260CB3DC9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777140C5-D424-4BEC-8719-06260CB3DC9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777140C5-D424-4BEC-8719-06260CB3DC9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777140C5-D424-4BEC-8719-06260CB3DC9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17481052-0515-4951-87DC-0AF7296A462C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17481052-0515-4951-87DC-0AF7296A462C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17481052-0515-4951-87DC-0AF7296A462C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17481052-0515-4951-87DC-0AF7296A462C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFC66B3B-6FC5-4D06-A12A-05ECF5EA65BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFC66B3B-6FC5-4D06-A12A-05ECF5EA65BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFC66B3B-6FC5-4D06-A12A-05ECF5EA65BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFC66B3B-6FC5-4D06-A12A-05ECF5EA65BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79AC3CA7-D106-45DA-8C63-A91EA220ADEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79AC3CA7-D106-45DA-8C63-A91EA220ADEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79AC3CA7-D106-45DA-8C63-A91EA220ADEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79AC3CA7-D106-45DA-8C63-A91EA220ADEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3659E81E-2787-4AA2-90DD-FDED9CEE7657}
 	EndGlobalSection
 EndGlobal
